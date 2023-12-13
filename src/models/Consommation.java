@@ -1,4 +1,4 @@
-package models.historique;
+package models;
 
 import models.Secteur;
 

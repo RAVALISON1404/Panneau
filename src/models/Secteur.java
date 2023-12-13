@@ -1,7 +1,5 @@
 package models;
 
-import models.historique.Consommation;
-import models.historique.Delestage;
 import utils.Connexion;
 
 import java.sql.*;
@@ -10,7 +8,6 @@ import java.util.Vector;
 public class Secteur {
     private int id;
     private String nom;
-    private Source source;
 
     public int getId() {
         return id;
@@ -28,35 +25,122 @@ public class Secteur {
         this.nom = nom;
     }
 
-    public Source getSource() {
-        try (Connection connection = new Connexion().getConnection()) {
-            String sql = "SELECT * FROM source where id=?";
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setInt(1, source.getId());
-                System.out.println(statement);
-                try (ResultSet resultSet = statement.executeQuery()) {
+    public double getBatterie(Connection connection) {
+        double batterie = 0;
+        boolean is_connected = false;
+        try {
+            if (connection == null) {
+                is_connected = true;
+                connection = new Connexion().getConnection();
+            }
+            String sql = "SELECT batterie FROM secteur WHERE id=?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                System.out.println(preparedStatement);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
-                        source.setBatterie(resultSet.getDouble("batterie"));
-                        source.setPanneau(resultSet.getDouble("panneau"));
+                        batterie = resultSet.getDouble("batterie");
                     }
                 }
             }
+            return batterie;
         } catch (Exception e) {
             throw new RuntimeException(e);
+        } finally {
+            if (is_connected) {
+                try {
+                    assert connection != null;
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
-        return source;
     }
 
-    public void setSource(Source source) {
-        this.source = source;
+    public double getPanneau(Connection connection) {
+        double panneau = 0;
+        boolean is_connected = false;
+        try {
+            if (connection == null) {
+                is_connected = true;
+                connection = new Connexion().getConnection();
+            }
+            String sql = "SELECT panneau FROM secteur WHERE id=?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                System.out.println(preparedStatement);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        panneau = resultSet.getDouble("panneau");
+                    }
+                }
+            }
+            return panneau;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (is_connected) {
+                try {
+                    assert connection != null;
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 
-    public Vector<Delestage> predir(Date date) {
+    public Delestage predir(Connection connection, Date date) {
+        boolean is_connected = false;
+        try {
+            if (connection == null) {
+                is_connected = true;
+                connection = new Connexion().getConnection();
+            }
+            Besoin besoin = new Besoin();
+            besoin.setDate(date);
+            besoin.setSecteur(this);
+            besoin = besoin.getPuissanceMoyenne(connection);
+            int result = besoin.update(connection);
+            if (result == 0) {
+                besoin.insert(connection);
+            }
+            Vector<Salle> salles = getSalles(connection);
+            Vector<Pointage> nbrPers = new Vector<>();
+            for (Salle salle : salles) {
+                nbrPers.add(salle.getPointage(connection, date));
+            }
+            for (Pointage nbrPer : nbrPers) {
+                result = nbrPer.update(connection);
+                if (result == 0) {
+                    nbrPer.insert(connection);
+                }
+            }
+            connection.commit();
+            return getCoupure(connection, date);
+        } catch (Exception e) {
+            try {
+                assert connection != null;
+                connection.rollback();
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        } finally {
+            if (is_connected) {
+                try {
+                    assert connection != null;
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
         return null;
     }
 
-    public Consommation[] getConsommation(Connection connection, Date date) {
-        Consommation[] consommations = new Consommation[10];
+    public Vector<Consommation> getConsommation(Connection connection, Date date) {
+        Vector<Consommation> consommations = new Vector<>();
         boolean is_connected = false;
         try {
             if (connection == null) {
@@ -69,15 +153,14 @@ public class Secteur {
                 preparedStatement.setDate(2, date);
                 System.out.println(preparedStatement);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    int index = 0;
                     while (resultSet.next()) {
-                        consommations[index] = new Consommation();
-                        consommations[index].setSecteur(this);
-                        consommations[index].setDate(date);
-                        consommations[index].setHeure(resultSet.getTime("heure"));
-                        consommations[index].setPanneau(resultSet.getDouble("panneau"));
-                        consommations[index].setBatterie(resultSet.getDouble("batterie"));
-                        index++;
+                        Consommation consommation = new Consommation();
+                        consommation.setSecteur(this);
+                        consommation.setDate(date);
+                        consommation.setHeure(resultSet.getTime("heure"));
+                        consommation.setPanneau(resultSet.getDouble("panneau"));
+                        consommation.setBatterie(resultSet.getDouble("batterie"));
+                        consommations.add(consommation);
                     }
                 }
             }
@@ -103,14 +186,15 @@ public class Secteur {
                 is_connected = true;
                 connection = new Connexion().getConnection();
             }
-            Consommation[] consommations = getConsommation(connection, date);
+            Vector<Consommation> consommations = getConsommation(connection, date);
             double consoTotal = 0;
             for (Consommation consommation : consommations) {
                 if (consommation.getBatterie() > 0) {
                     consoTotal += consommation.getBatterie();
                 }
-                if (consoTotal > getSource().getBatterie() / 2) {
-                    double reste = consoTotal - getSource().getBatterie() / 2;
+                double batterie = getBatterie(connection);
+                if (consoTotal > (batterie / 2)) {
+                    double reste = consoTotal - batterie / 2;
                     reste = reste * 60 / consommation.getBatterie();
                     reste = 60 - reste;
                     Delestage delestage = new Delestage();
@@ -215,9 +299,8 @@ public class Secteur {
             Vector<Delestage> delestages = getDelestages(connection, date);
             for (Delestage delestage : delestages) {
                 if (coupure == null) {
-                    puissance = findPuissance(connection, date, coupure, delestage);
-                }
-                else if (!coupure.getDebut().equals(delestage.getDebut())) {
+                    puissance = findPuissance(connection, date, null, delestage);
+                } else if (!coupure.getDebut().equals(delestage.getDebut())) {
                     puissance = findPuissance(connection, date, coupure, delestage);
                 } else {
                     puissance = getPuissance(connection, date);
@@ -258,21 +341,25 @@ public class Secteur {
                 }
             }
             while (!coupure.getDebut().equals(delestage.getDebut())) {
-                puissance = getPuissance(connection, date);
-                if (coupure.getDebut().before(delestage.getDebut())) {
-                    puissance -= (puissance_initiale / diviseur);
-                } else {
-                    puissance += (puissance_initiale / diviseur);
-                }
-                setPuissance(connection, date, puissance);
-                diviseur *= 2;
-                coupure = getCoupure(connection, date);
-                while (coupure == null) {
+                if (diviseur != 0) {
                     puissance = getPuissance(connection, date);
-                    puissance += (puissance_initiale / diviseur);
+                    if (coupure.getDebut().before(delestage.getDebut())) {
+                        puissance -= (puissance_initiale / diviseur);
+                    } else {
+                        puissance += (puissance_initiale / diviseur);
+                    }
                     setPuissance(connection, date, puissance);
-                    coupure = getCoupure(connection, date);
                     diviseur *= 2;
+                    coupure = getCoupure(connection, date);
+                    while (coupure == null) {
+                        puissance = getPuissance(connection, date);
+                        puissance += (puissance_initiale / diviseur);
+                        setPuissance(connection, date, puissance);
+                        coupure = getCoupure(connection, date);
+                        diviseur *= 2;
+                    }
+                } else {
+                    break;
                 }
             }
             puissance = getPuissance(connection, date);
@@ -331,4 +418,72 @@ public class Secteur {
         return delestages;
     }
 
+    public Vector<Salle> getSalles(Connection connection) throws SQLException {
+        Vector<Salle> salles = new Vector<>();
+        boolean is_connected = false;
+        try {
+            if (connection == null) {
+                is_connected = true;
+                connection = new Connexion().getConnection();
+            }
+            String sql = "SELECT * FROM salle WHERE secteur_id=?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                System.out.println(preparedStatement);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Salle salle = new Salle();
+                        salle.setId(resultSet.getInt("id"));
+                        salle.setNom(resultSet.getString("nom"));
+                        salle.setSecteur(this);
+                        salles.add(salle);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (is_connected) {
+                assert connection != null;
+                connection.close();
+            }
+        }
+        return salles;
+    }
+
+    public static Vector<Secteur> all(Connection connection) {
+        Vector<Secteur> secteurs;
+        boolean is_connected = false;
+        try {
+            if (connection == null) {
+                is_connected = true;
+                connection = new Connexion().getConnection();
+            }
+            String sql = "SELECT * FROM secteur";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                System.out.println(preparedStatement);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    secteurs = new Vector<>();
+                    while (resultSet.next()) {
+                        Secteur secteur = new Secteur();
+                        secteur.setId(resultSet.getInt("id"));
+                        secteur.setNom(resultSet.getString("nom"));
+                        secteurs.add(secteur);
+                    }
+                }
+                return secteurs;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (is_connected) {
+                assert connection != null;
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
 }

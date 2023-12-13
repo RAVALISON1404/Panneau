@@ -1,15 +1,9 @@
 CREATE TABLE secteur
 (
-    id  SERIAL PRIMARY KEY,
-    nom VARCHAR
-);
-
-CREATE TABLE source
-(
-    id         SERIAL PRIMARY KEY,
-    panneau    DOUBLE PRECISION,
-    batterie   DOUBLE PRECISION,
-    secteur_id INT REFERENCES secteur (id)
+    id       SERIAL PRIMARY KEY,
+    nom      VARCHAR,
+    panneau  DOUBLE PRECISION,
+    batterie DOUBLE PRECISION
 );
 
 CREATE TABLE salle
@@ -19,7 +13,7 @@ CREATE TABLE salle
     secteur_id INT REFERENCES secteur (id)
 );
 
-CREATE TABLE nbr_pers
+CREATE TABLE pointage
 (
     id       SERIAL PRIMARY KEY,
     date     DATE,
@@ -54,23 +48,26 @@ CREATE TABLE luminosite
 );
 
 create or replace view besoin_necessaire as
-select besoin.date as date, (besoin.puissance * (sum(am))) as am, (besoin.puissance * (sum(pm))) as pm
+select secteur.id                     as secteur_id,
+       besoin.date                    as date,
+       (besoin.puissance * (sum(am))) as am,
+       (besoin.puissance * (sum(pm))) as pm
 from secteur
          join besoin on secteur.id = besoin.secteur_id
          join salle on secteur.id = salle.secteur_id
-         join nbr_pers on salle.id = nbr_pers.salle_id
-group by besoin.date, besoin.puissance;
+         join pointage on salle.id = pointage.salle_id and pointage.date = besoin.date
+group by secteur.id, besoin.date, besoin.puissance;
 
 create or replace view consommation_necessaire as
-select secteur.id            as secteur,
+select secteur.id                              as secteur,
        luminosite.date,
-       heure,
-       niveau * panneau / 10 as panneau,
+       luminosite.heure,
+       luminosite.niveau * secteur.panneau / 10 as panneau,
        CASE
-           WHEN EXTRACT(HOUR FROM heure) >= 12 THEN pm - niveau * panneau / 10
-           ELSE am - niveau * panneau / 10
-           END               AS batterie
-from luminosite,
-     secteur
-         join source on secteur.id = source.secteur_id
-         natural join besoin_necessaire;
+           WHEN EXTRACT(HOUR FROM luminosite.heure) >= 12 THEN sum(pm) - luminosite.niveau * secteur.panneau / 10
+           ELSE sum(am) - luminosite.niveau * secteur.panneau / 10
+           END                                 AS batterie
+from luminosite
+         join besoin_necessaire on luminosite.date = besoin_necessaire.date
+         join secteur on besoin_necessaire.secteur_id = secteur.id
+group by luminosite.date, luminosite.heure, secteur.id, luminosite.niveau, secteur.panneau;
