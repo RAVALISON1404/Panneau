@@ -41,22 +41,27 @@
 			</tr>
 			</thead>
 			<tbody>
-			<% Vector<Secteur> secteurs = (Vector<Secteur>) request.getAttribute("secteurs");
-				Vector<Delestage> delestages = (Vector<Delestage>) request.getAttribute("delestages");
-				for (int i = 0; i < secteurs.size(); i++) { %>
+			<% Vector<Delestage> delestages = (Vector<Delestage>) request.getAttribute("delestages");
+            if (delestages.size() > 0) {
+				for (Delestage delestage: delestages) { %>
 			<tr>
 				<td>
-					<%= secteurs.get(i).getNom() %>
+					<%= delestage.getSecteur().getNom() %>
 				</td>
 				<td>
-					<%= delestages.get(i).getDebut() %>
+					<%= delestage.getDebut() %>
 				</td>
 				<td>
-					<a href="DetailsPrediction?secteur_id=<%= secteurs.get(i).getId() %>&date=<%= delestages.get(i).getDate() %>">
+					<a href="DetailsPrediction?secteur_id=<%= delestage.getSecteur().getId() %>&date=<%= delestage.getDate() %>">
 						Voir les détails
 					</a>
 				</td>
 			</tr>
+			<% }
+            } else { %>
+                <h1 class="title">
+					Aucun delestage
+				</h1>
 			<% } %>
 			</tbody>
 		</table>

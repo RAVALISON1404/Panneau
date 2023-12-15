@@ -3,6 +3,8 @@ package models;
 import utils.Connexion;
 
 import java.sql.*;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Vector;
 
 public class Secteur {
@@ -105,6 +107,8 @@ public class Secteur {
             Besoin newBesoin = besoin.select(connection);
             if (newBesoin == null) {
                 besoin.insert(connection);
+            } else {
+                besoin.update(connection);
             }
             Vector<Salle> salles = getSalles(connection);
             Vector<Pointage> pointages = new Vector<>();
@@ -196,11 +200,13 @@ public class Secteur {
                 }
                 if (consoTotal > (batterie / 2)) {
                     double reste = consoTotal - batterie / 2;
-                    reste = reste * 60 / consommation.getBatterie();
-                    reste = 60 - reste;
+                    reste = reste * 3600 / consommation.getBatterie();
+                    reste = 3600 - reste;
+                    LocalTime heureDebut = consommation.getHeure().toLocalTime();
+                    LocalTime nouvelleHeureDebut = heureDebut.plusSeconds((long) reste);
                     Delestage delestage = new Delestage();
                     delestage.setDate(date);
-                    delestage.setDebut(new Time(consommation.getHeure().getHours(), (int) reste, consommation.getHeure().getSeconds()));
+                    delestage.setDebut(Time.valueOf(nouvelleHeureDebut));
                     delestage.setFin(new Time(18, 0, 0));
                     return delestage;
                 }
@@ -334,13 +340,12 @@ public class Secteur {
                 connection = new Connexion().getConnection();
             }
             double puissance_initiale = getPuissance(connection, date);
-            int diviseur = 2;
+            long diviseur = 2;
             while (coupure == null) {
                 puissance = getPuissance(connection, date);
                 puissance += (puissance_initiale / diviseur);
                 setPuissance(connection, date, puissance);
                 coupure = getCoupure(connection, date);
-
             }
             while (!coupure.getDebut().equals(delestage.getDebut())) {
                 if (diviseur != 0) {

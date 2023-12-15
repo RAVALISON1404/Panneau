@@ -30,20 +30,14 @@ public class IndexServlet extends HttpServlet {
             Vector<Delestage> delestages = new Vector<>();
             Connection connection = new Connexion().getConnection();
             Vector<Secteur> secteurs = Secteur.all(connection);
-            Vector<Secteur> sansDelestage = new Vector<>();
             for (Secteur secteur : secteurs) {
                 Delestage delestage = secteur.predir(connection, date);
                 if (delestage != null) {
+                    delestage.setSecteur(secteur);
                     delestages.add(delestage);
-                } else {
-                    sansDelestage.add(secteur);
                 }
             }
-            for (Secteur secteur : sansDelestage) {
-                secteurs.remove(secteur);
-            }
             connection.close();
-            request.setAttribute("secteurs", secteurs);
             request.setAttribute("delestages", delestages);
             request.getRequestDispatcher("prediction.jsp").forward(request, response);
         } catch (Exception e) {

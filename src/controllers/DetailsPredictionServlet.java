@@ -25,15 +25,20 @@ public class DetailsPredictionServlet extends HttpServlet {
         secteur.setId(secteur_id);
         try {
             Connection connection = new Connexion().getConnection();
+            double batterie = secteur.getBatterie(connection);
             Vector<Consommation> consommations = secteur.getConsommation(connection, date);
             Vector<Consommation> newConsommations = new Vector<>();
             Delestage delestage = consommations.get(0).getSecteur().getCoupure(connection, date);
+            double conso = 0;
             for (Consommation consommation : consommations) {
-                if (consommation.getHeure().before(delestage.getDebut())) {
-                    newConsommations.add(consommation);
+                conso += consommation.getBatterie();
+                if (conso > batterie/2) {
+                    consommation.setBatterie(batterie/2);
+//                    newConsommations.add(consommation);
                 }
             }
-            request.setAttribute("consommations", newConsommations);
+            request.setAttribute("consommations", consommations);
+            request.setAttribute("batterie", batterie);
             request.getRequestDispatcher("detailsPrediction.jsp").forward(request, response);
         } catch (Exception e) {
             throw new RuntimeException(e);

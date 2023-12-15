@@ -1,6 +1,5 @@
 package models;
 
-import models.Secteur;
 import utils.Connexion;
 
 import java.sql.*;

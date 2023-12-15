@@ -40,7 +40,8 @@
 			</tr>
 			</thead>
 			<tbody>
-			<% Vector<Consommation> consommations = (Vector<Consommation>) request.getAttribute("consommations");
+			<% double batterie = (double) request.getAttribute("batterie");
+				Vector<Consommation> consommations = (Vector<Consommation>) request.getAttribute("consommations");
 				for (int i = 0; i < consommations.size(); i++) { %>
 			<tr>
 				<td>
@@ -50,7 +51,7 @@
 					<%= consommations.get(i).getPanneau() %>
 				</td>
 				<td>
-					<%= consommations.get(i).getBatterie() %>
+					<%= batterie - consommations.get(i).getBatterie() %>
 				</td>
 			</tr>
 			<% } %>

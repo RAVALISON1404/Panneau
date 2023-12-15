@@ -139,4 +139,30 @@ public class Besoin {
             }
         }
     }
+    public void update(Connection connection) throws SQLException {
+        boolean is_connected = false;
+        try {
+            if (connection == null) {
+                is_connected = true;
+                connection = new Connexion().getConnection();
+            }
+            String sql = "UPDATE besoin SET puissance = ? WHERE date=? AND secteur_id=?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setDouble(1, puissance);
+                preparedStatement.setDate(2, date);
+                preparedStatement.setInt(3, secteur.getId());
+                System.out.println(preparedStatement);
+                preparedStatement.executeUpdate();
+            }
+        } catch (Exception e) {
+            assert connection != null;
+            connection.rollback();
+        } finally {
+            if (is_connected) {
+                assert connection != null;
+                connection.close();
+
+            }
+        }
+    }
 }
