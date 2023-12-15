@@ -347,7 +347,7 @@ public class Secteur {
                     puissance = getPuissance(connection, date);
                     if (coupure.getDebut().before(delestage.getDebut())) {
                         puissance -= (puissance_initiale / diviseur);
-                    } else if (coupure.getDebut().after(delestage.getDebut()) || coupure == null) {
+                    } else if (coupure.getDebut().after(delestage.getDebut())) {
                         puissance += (puissance_initiale / diviseur);
                     }
                     setPuissance(connection, date, puissance);
