@@ -1,12 +1,8 @@
 package models;
 
-import models.Salle;
 import utils.Connexion;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Pointage {
     private int id;
@@ -54,29 +50,33 @@ public class Pointage {
     public void setPm(int pm) {
         this.pm = pm;
     }
-
-    public int update(Connection connection) {
+    public Pointage select (Connection connection) {
         boolean is_connected = false;
         try {
             if (connection == null) {
                 is_connected = true;
                 connection = new Connexion().getConnection();
             }
-            String sql = "UPDATE pointage SET am=?, pm=? WHERE salle_id=? AND date=?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setDouble(1, am);
-            preparedStatement.setDouble(2, pm);
-            preparedStatement.setInt(3, id);
-            preparedStatement.setDate(4, date);
-            System.out.println(preparedStatement);
-            return preparedStatement.executeUpdate();
+            String sql = "SELECT * FROM pointage WHERE salle_id=? AND date=?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, salle.getId());
+                preparedStatement.setDate(2, date);
+                System.out.println(preparedStatement);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    Pointage pointage = null;
+                    while (resultSet.next()) {
+                        pointage = new Pointage();
+                        pointage.setAm(resultSet.getInt("am"));
+                        pointage.setPm(resultSet.getInt("pm"));
+                        pointage.setId(resultSet.getInt("id"));
+                        pointage.setSalle(salle);
+                        pointage.setDate(date);
+                    }
+                    return pointage;
+                }
+            }
         } catch (Exception e) {
             assert connection != null;
-            try {
-                connection.rollback();
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
         } finally {
             if (is_connected) {
                 assert connection != null;
@@ -85,10 +85,9 @@ public class Pointage {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-
             }
         }
-        return 0;
+        return null;
     }
 
     public void insert(Connection connection) throws SQLException {

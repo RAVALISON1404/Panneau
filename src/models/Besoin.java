@@ -75,32 +75,42 @@ public class Besoin {
         return this;
     }
 
-    public int update(Connection connection) throws SQLException {
+    public Besoin select (Connection connection) {
         boolean is_connected = false;
         try {
             if (connection == null) {
                 is_connected = true;
                 connection = new Connexion().getConnection();
             }
-            String sql = "UPDATE besoin SET puissance=? WHERE secteur_id=? AND date=?";
+            String sql = "SELECT * FROM besoin WHERE secteur_id=? AND date=?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setDouble(1, puissance);
-                preparedStatement.setInt(2, secteur.getId());
-                preparedStatement.setDate(3, date);
+                preparedStatement.setInt(1, secteur.getId());
+                preparedStatement.setDate(2, date);
                 System.out.println(preparedStatement);
-                return preparedStatement.executeUpdate();
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    Besoin besoin = null;
+                    while (resultSet.next()) {
+                        besoin = new Besoin();
+                        besoin.setDate(resultSet.getDate("date"));
+                        besoin.setSecteur(secteur);
+                        besoin.setPuissance(resultSet.getDouble("puissance"));
+                    }
+                    return besoin;
+                }
             }
         } catch (Exception e) {
             assert connection != null;
-            connection.rollback();
         } finally {
             if (is_connected) {
                 assert connection != null;
-                connection.close();
-
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
-        return 0;
+        return null;
     }
 
     public void insert(Connection connection) throws SQLException {

@@ -24,24 +24,30 @@ public class IndexServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         Date date = Date.valueOf(request.getParameter("date"));
-        Vector<Delestage> delestages = new Vector<>();
         try {
+            Vector<Delestage> delestages = new Vector<>();
             Connection connection = new Connexion().getConnection();
             Vector<Secteur> secteurs = Secteur.all(connection);
+            Vector<Secteur> sansDelestage = new Vector<>();
             for (Secteur secteur : secteurs) {
                 Delestage delestage = secteur.predir(connection, date);
                 if (delestage != null) {
                     delestages.add(delestage);
+                } else {
+                    sansDelestage.add(secteur);
                 }
+            }
+            for (Secteur secteur : sansDelestage) {
+                secteurs.remove(secteur);
             }
             connection.close();
             request.setAttribute("secteurs", secteurs);
+            request.setAttribute("delestages", delestages);
+            request.getRequestDispatcher("prediction.jsp").forward(request, response);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        request.setAttribute("delestages", delestages);
-        request.getRequestDispatcher("prediction.jsp").forward(request, response);
     }
 }

@@ -102,19 +102,19 @@ public class Secteur {
             besoin.setDate(date);
             besoin.setSecteur(this);
             besoin = besoin.getPuissanceMoyenne(connection);
-            int result = besoin.update(connection);
-            if (result == 0) {
+            Besoin newBesoin = besoin.select(connection);
+            if (newBesoin == null) {
                 besoin.insert(connection);
             }
             Vector<Salle> salles = getSalles(connection);
-            Vector<Pointage> nbrPers = new Vector<>();
+            Vector<Pointage> pointages = new Vector<>();
             for (Salle salle : salles) {
-                nbrPers.add(salle.getPointage(connection, date));
+                pointages.add(salle.getPointage(connection, date));
             }
-            for (Pointage nbrPer : nbrPers) {
-                result = nbrPer.update(connection);
-                if (result == 0) {
-                    nbrPer.insert(connection);
+            for (Pointage p : pointages) {
+                Pointage pointage = p.select(connection);
+                if (pointage == null) {
+                    p.insert(connection);
                 }
             }
             connection.commit();
@@ -188,18 +188,20 @@ public class Secteur {
             }
             Vector<Consommation> consommations = getConsommation(connection, date);
             double consoTotal = 0;
+            double batterie = getBatterie(connection);
             for (Consommation consommation : consommations) {
-                if (consommation.getBatterie() > 0) {
-                    consoTotal += consommation.getBatterie();
+                consoTotal += consommation.getBatterie();
+                if (consoTotal < 0) {
+                    consoTotal = 0;
                 }
-                double batterie = getBatterie(connection);
                 if (consoTotal > (batterie / 2)) {
                     double reste = consoTotal - batterie / 2;
                     reste = reste * 60 / consommation.getBatterie();
                     reste = 60 - reste;
                     Delestage delestage = new Delestage();
+                    delestage.setDate(date);
                     delestage.setDebut(new Time(consommation.getHeure().getHours(), (int) reste, consommation.getHeure().getSeconds()));
-                    delestage.setFin(new Time(17, 0, 0));
+                    delestage.setFin(new Time(18, 0, 0));
                     return delestage;
                 }
             }
@@ -259,10 +261,11 @@ public class Secteur {
                 is_connected = true;
                 connection = new Connexion().getConnection();
             }
-            String sql = "UPDATE besoin SET puissance=? WHERE date=?";
+            String sql = "UPDATE besoin SET puissance=? WHERE date=? AND secteur_id=?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 statement.setDouble(1, puissance);
                 statement.setDate(2, date);
+                statement.setInt(3, id);
                 System.out.println(statement);
                 statement.executeUpdate();
             }
@@ -332,20 +335,19 @@ public class Secteur {
             }
             double puissance_initiale = getPuissance(connection, date);
             int diviseur = 2;
-            if (coupure == null) {
-                while (coupure == null) {
-                    puissance = getPuissance(connection, date);
-                    puissance += (puissance_initiale / diviseur);
-                    setPuissance(connection, date, puissance);
-                    coupure = getCoupure(connection, date);
-                }
+            while (coupure == null) {
+                puissance = getPuissance(connection, date);
+                puissance += (puissance_initiale / diviseur);
+                setPuissance(connection, date, puissance);
+                coupure = getCoupure(connection, date);
+
             }
             while (!coupure.getDebut().equals(delestage.getDebut())) {
                 if (diviseur != 0) {
                     puissance = getPuissance(connection, date);
                     if (coupure.getDebut().before(delestage.getDebut())) {
                         puissance -= (puissance_initiale / diviseur);
-                    } else {
+                    } else if (coupure.getDebut().after(delestage.getDebut()) || coupure == null) {
                         puissance += (puissance_initiale / diviseur);
                     }
                     setPuissance(connection, date, puissance);

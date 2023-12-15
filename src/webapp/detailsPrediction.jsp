@@ -1,6 +1,5 @@
-<%@ page import="models.Delestage" %>
-<%@ page import="models.Secteur" %>
 <%@ page import="java.util.Vector" %>
+<%@ page import="models.Consommation" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
 <html lang="fr">
@@ -30,31 +29,28 @@
 			<thead>
 			<tr>
 				<th>
-					Secteur
+					Heure
 				</th>
 				<th>
-					Coupure
+					Panneau
 				</th>
 				<th>
-
+					Batterie
 				</th>
 			</tr>
 			</thead>
 			<tbody>
-			<% Vector<Secteur> secteurs = (Vector<Secteur>) request.getAttribute("secteurs");
-				Vector<Delestage> delestages = (Vector<Delestage>) request.getAttribute("delestages");
-				for (int i = 0; i < secteurs.size(); i++) { %>
+			<% Vector<Consommation> consommations = (Vector<Consommation>) request.getAttribute("consommations");
+				for (int i = 0; i < consommations.size(); i++) { %>
 			<tr>
 				<td>
-					<%= secteurs.get(i).getNom() %>
+					<%= consommations.get(i).getHeure() %>
 				</td>
 				<td>
-					<%= delestages.get(i).getDebut() %>
+					<%= consommations.get(i).getPanneau() %>
 				</td>
 				<td>
-					<a href="DetailsPrediction?secteur_id=<%= secteurs.get(i).getId() %>&date=<%= delestages.get(i).getDate() %>">
-						Voir les détails
-					</a>
+					<%= consommations.get(i).getBatterie() %>
 				</td>
 			</tr>
 			<% } %>

@@ -5,36 +5,36 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="707358e1-499f-4c00-ba23-25d06660a764" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/servlet_api.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controllers/IndexServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controllers/PredictionServlet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/Besoin.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/models/Pointage.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/run.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/index.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/webapp/prediction.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/webapp/detailsPrediction.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2b4e6dd4-9129-46f5-b5ef-540d5be01c1e.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2b4e6dd4-9129-46f5-b5ef-540d5be01c1e/storage_v2/_src_/database/panneau.SKKB0A.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2b4e6dd4-9129-46f5-b5ef-540d5be01c1e/storage_v2/_src_/database/panneau.SKKB0A/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2b4e6dd4-9129-46f5-b5ef-540d5be01c1e/storage_v2/_src_/database/panneau.SKKB0A/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2b4e6dd4-9129-46f5-b5ef-540d5be01c1e/storage_v2/_src_/database/panneau.SKKB0A/schema/public.abK9xQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2b4e6dd4-9129-46f5-b5ef-540d5be01c1e/storage_v2/_src_/database/panneau.SKKB0A/schema/public.abK9xQ.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8b5f6ee3-dde4-4dd4-8185-5f165b93f425.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8b5f6ee3-dde4-4dd4-8185-5f165b93f425/storage_v2/_src_/database/panneau.SKKB0A.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8b5f6ee3-dde4-4dd4-8185-5f165b93f425/storage_v2/_src_/database/panneau.SKKB0A/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8b5f6ee3-dde4-4dd4-8185-5f165b93f425/storage_v2/_src_/database/panneau.SKKB0A/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8b5f6ee3-dde4-4dd4-8185-5f165b93f425/storage_v2/_src_/database/panneau.SKKB0A/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8b5f6ee3-dde4-4dd4-8185-5f165b93f425/storage_v2/_src_/database/panneau.SKKB0A/schema/public.abK9xQ.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b9bdb7a5-ab73-4e51-9768-2f93e7071f63.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b9bdb7a5-ab73-4e51-9768-2f93e7071f63/storage_v2/_src_/database/panneau.SKKB0A.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b9bdb7a5-ab73-4e51-9768-2f93e7071f63/storage_v2/_src_/database/panneau.SKKB0A/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b9bdb7a5-ab73-4e51-9768-2f93e7071f63/storage_v2/_src_/database/panneau.SKKB0A/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b9bdb7a5-ab73-4e51-9768-2f93e7071f63/storage_v2/_src_/database/panneau.SKKB0A/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b9bdb7a5-ab73-4e51-9768-2f93e7071f63/storage_v2/_src_/database/panneau.SKKB0A/schema/public.abK9xQ.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/panneau.iml" beforeDir="false" afterPath="$PROJECT_DIR$/panneau.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/backup.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/backup.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Salle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Salle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/backup.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/IndexServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/IndexServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/PredictionServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/DetailsPredictionServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Besoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Besoin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Delestage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Delestage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/models/Pointage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Pointage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/Secteur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Secteur.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Source.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/historique/Besoin.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/historique/Consommation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Consommation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/historique/Delestage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Delestage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/historique/Luminosite.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Luminosite.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/historique/NbrPers.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/controllers/IndexServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/controllers/IndexServlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/models/Besoin.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/models/Besoin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/models/Delestage.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/models/Delestage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/models/Pointage.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/models/Pointage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/models/Secteur.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/models/Secteur.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webapp/prediction.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/prediction.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,8 +44,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Servlet" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -69,6 +69,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
+    "database.data.extractors.current.export.id": "SQL Inserts",
     "git-widget-placeholder": "master",
     "last_opened_file_path": "/home/ravalison/GitHub/panneau/src",
     "node.js.detected.package.eslint": "true",
@@ -78,6 +79,7 @@
     "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -86,7 +88,14 @@
     ]
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="panneau" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Run" type="ShConfigurationType">
       <option name="SCRIPT_TEXT" value="" />
       <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
@@ -102,6 +111,11 @@
       <envs />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -131,6 +145,12 @@
       <workItem from="1702404056543" duration="9323000" />
       <workItem from="1702441355548" duration="279000" />
       <workItem from="1702442163513" duration="19603000" />
+      <workItem from="1702481765304" duration="18721000" />
+      <workItem from="1702503238835" duration="117000" />
+      <workItem from="1702525529299" duration="935000" />
+      <workItem from="1702528094264" duration="16988000" />
+      <workItem from="1702555524130" duration="5519000" />
+      <workItem from="1702582474419" duration="4199000" />
     </task>
     <servers />
   </component>
