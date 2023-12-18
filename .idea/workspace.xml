@@ -5,20 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="707358e1-499f-4c00-ba23-25d06660a764" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/6b9b054e-c4e2-4758-b464-6dd9b66f2583.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/6b9b054e-c4e2-4758-b464-6dd9b66f2583.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controllers/DetailsPredictionServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/DetailsPredictionServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/IndexServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/IndexServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Besoin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Besoin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Delestage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Delestage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/models/Secteur.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/Secteur.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/controllers/DetailsPredictionServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/controllers/DetailsPredictionServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/controllers/IndexServlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/controllers/IndexServlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/models/Besoin.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/models/Besoin.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/models/Delestage.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/models/Delestage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/models/Secteur.class" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/WEB-INF/classes/models/Secteur.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webapp/detailsPrediction.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/detailsPrediction.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webapp/prediction.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/webapp/prediction.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,11 +45,13 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;database.data.extractors.current.export.id&quot;: &quot;SQL Inserts&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/ravalison/GitHub/panneau/src&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
@@ -101,6 +93,13 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-19.0.2-corretto-19.0.2-3183f394aec4-b9b76bbb" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -135,7 +134,11 @@
       <workItem from="1702528094264" duration="16988000" />
       <workItem from="1702555524130" duration="5519000" />
       <workItem from="1702582474419" duration="15016000" />
-      <workItem from="1702621769277" duration="4247000" />
+      <workItem from="1702621769277" duration="4248000" />
+      <workItem from="1702872542173" duration="110000" />
+      <workItem from="1702872700854" duration="483000" />
+      <workItem from="1702878857785" duration="10000" />
+      <workItem from="1702885745666" duration="1199000" />
     </task>
     <servers />
   </component>
